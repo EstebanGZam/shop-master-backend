@@ -1,0 +1,74 @@
+services:
+  # Base de datos relacional - PostgreSQL
+  shop-master-postgres:
+    image: postgres:latest
+    container_name: shop-master-postgres
+    platform: linux/x86_64
+    command: [ "--max_connections=1000" ]
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: 'shop_master'
+      POSTGRES_USER: 'admin'
+      POSTGRES_PASSWORD: '12345'
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shop_network
+
+  # Administrador para PostgreSQL - pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: shop-master-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+    ports:
+      - "5050:80"
+    depends_on:
+      - shop-master-postgres
+    networks:
+      - shop_network
+
+  # Base de datos no relacional - MongoDB
+  shop-master-mongodb:
+    image: mongo:latest
+    container_name: shop-master-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'admin'
+      MONGO_INITDB_ROOT_PASSWORD: '12345'
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - shop_network
+
+  # Administrador para MongoDB - Mongo Express
+  mongo-express:
+    image: mongo-express
+    container_name: shop-master-mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: rootuser
+      ME_CONFIG_MONGODB_ADMINPASSWORD: rootpass
+      ME_CONFIG_MONGODB_SERVER: shop-master-mongodb
+    depends_on:
+      - shop-master-mongodb
+    networks:
+      - shop_network
+
+volumes:
+  postgres_data:
+  mongodb_data:
+
+
+networks:
+  shop_network:
+    name: shop_network
