@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Dependencias esenciales para el desarrollo de la aplicación con Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'   // Soporte para JPA y ORM
+	implementation 'org.springframework.boot:spring-boot-starter-security'  // Soporte para seguridad en la aplicación
+	implementation 'org.springframework.boot:spring-boot-starter-web'       // Desarrollo de aplicaciones web
+
+	// Dependencias para mejorar el desarrollo y la compilación
+	compileOnly 'org.projectlombok:lombok'                                  // Uso de Lombok para reducir código repetitivo
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'         // Herramientas para desarrollo, como el recarga en caliente
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Dependencias para las base de datos
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	// Dependencias para pruebas
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Pruebas unitarias con soporte de Spring Boot
+	testImplementation 'org.springframework.security:spring-security-test'  // Pruebas de seguridad con Spring Security
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Dependencias para la implementación de JWT (JSON Web Tokens)
+	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
+
+	// Dependencia de MapStruct
+	implementation 'org.mapstruct:mapstruct:1.5.0.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.0.Final'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
