@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(unique = true, nullable = false)
@@ -39,6 +39,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String address;
 
+    @Builder.Default
     @Column(name = "registration_date")
     private LocalDateTime registrationDate = LocalDateTime.now();
 

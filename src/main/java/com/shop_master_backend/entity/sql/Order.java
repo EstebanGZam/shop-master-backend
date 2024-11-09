@@ -21,6 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Builder.Default
     @Column(name = "order_date")
     private LocalDateTime orderDate = LocalDateTime.now();
 

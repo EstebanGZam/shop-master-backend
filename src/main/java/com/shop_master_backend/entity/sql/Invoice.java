@@ -20,6 +20,7 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Builder.Default
     @Column(name = "issue_date", nullable = false)
     private LocalDateTime issueDate = LocalDateTime.now();
 

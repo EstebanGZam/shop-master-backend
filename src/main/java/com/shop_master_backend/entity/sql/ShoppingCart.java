@@ -21,6 +21,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Builder.Default
     @Column(name = "creation_date")
     private LocalDateTime creationDate = LocalDateTime.now();
 
