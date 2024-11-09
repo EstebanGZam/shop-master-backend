@@ -1,4 +1,4 @@
-package com.shop_master_backend.config;
+package com.shop_master_backend.db;
 
 import com.shop_master_backend.entity.mongodb.*;
 import com.shop_master_backend.repository.ProductRepository;
