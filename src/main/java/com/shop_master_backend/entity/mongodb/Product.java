@@ -1,38 +1,30 @@
 package com.shop_master_backend.entity.mongodb;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.Data;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "products")
 public class Product {
     @Id
     private String id;
-
     private String name;
     private String description;
-    private BigDecimal price;
+    private Double price;
     private Integer stockQuantity;
-    private LocalDate creationDate;
+    @Builder.Default
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     private Size size;
     private Category category;
     private Image image;
-
-    public Product() {}
-
-    public Product(String id, String name, String description, BigDecimal price, Integer stockQuantity, LocalDate creationDate, Size size, Category category, Image image) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.creationDate = creationDate;
-        this.size = size;
-        this.category = category;
-        this.image = image;
-    }
 }

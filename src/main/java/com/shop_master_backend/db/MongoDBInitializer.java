@@ -3,12 +3,10 @@ package com.shop_master_backend.db;
 import com.shop_master_backend.entity.mongodb.*;
 import com.shop_master_backend.repository.ProductRepository;
 import com.shop_master_backend.repository.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Configuration
 public class MongoDBInitializer {
@@ -51,9 +49,8 @@ public class MongoDBInitializer {
             shirtProduct.setId("001");
             shirtProduct.setName("Camisa de algodón");
             shirtProduct.setDescription("Camisa de algodón 100% para uso diario");
-            shirtProduct.setPrice(BigDecimal.valueOf(29.99));
+            shirtProduct.setPrice(29.99);
             shirtProduct.setStockQuantity(50);
-            shirtProduct.setCreationDate(LocalDate.now());
             shirtProduct.setSize(sizeSmall);
             shirtProduct.setCategory(shirtCategory);
             shirtProduct.setImage(sampleImage);
@@ -64,9 +61,8 @@ public class MongoDBInitializer {
             pantsProduct.setId("002");
             pantsProduct.setName("Jeans de mezclilla");
             pantsProduct.setDescription("Jeans ajustados de mezclilla azul oscuro");
-            pantsProduct.setPrice(BigDecimal.valueOf(49.99));
+            pantsProduct.setPrice(49.99);
             pantsProduct.setStockQuantity(30);
-            pantsProduct.setCreationDate(LocalDate.now());
             pantsProduct.setSize(sizeMedium);
             pantsProduct.setCategory(pantsCategory);
             pantsProduct.setImage(sampleImage);
@@ -79,7 +75,6 @@ public class MongoDBInitializer {
             shirtReview.setUserId(1);
             shirtReview.setRating(4);
             shirtReview.setComment("Muy cómoda y de buena calidad.");
-            shirtReview.setDate(LocalDate.now());
 
             reviewRepository.save(shirtReview);
 
@@ -89,7 +84,6 @@ public class MongoDBInitializer {
             pantsReview.setUserId(2);
             pantsReview.setRating(5);
             pantsReview.setComment("Excelente ajuste y material resistente.");
-            pantsReview.setDate(LocalDate.now());
 
             reviewRepository.save(pantsReview);
         };
