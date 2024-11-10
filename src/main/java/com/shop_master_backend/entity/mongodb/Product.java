@@ -21,4 +21,18 @@ public class Product {
     private Size size;
     private Category category;
     private Image image;
+
+    public Product() {}
+
+    public Product(String id, String name, String description, BigDecimal price, Integer stockQuantity, LocalDate creationDate, Size size, Category category, Image image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.creationDate = creationDate;
+        this.size = size;
+        this.category = category;
+        this.image = image;
+    }
 }

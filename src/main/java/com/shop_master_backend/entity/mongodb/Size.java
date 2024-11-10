@@ -8,4 +8,11 @@ public class Size {
     @Id
     private String id;
     private String name;
+
+    public Size() {}
+
+    public Size(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

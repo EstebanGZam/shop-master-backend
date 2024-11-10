@@ -8,4 +8,11 @@ public class Image {
     @Id
     private String id;
     private byte[] content;
+
+    public Image() {}
+
+    public Image(String id, byte[] content) {
+        this.id = id;
+        this.content = content;
+    }
 }
