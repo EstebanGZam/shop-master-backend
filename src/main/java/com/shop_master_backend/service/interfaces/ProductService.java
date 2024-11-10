@@ -2,12 +2,13 @@ package com.shop_master_backend.service.interfaces;
 
 import com.shop_master_backend.dto.product.ProductRequestDTO;
 import com.shop_master_backend.dto.product.ProductResponseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
 
-    ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO);
+    ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO, MultipartFile image);
 
     List<ProductResponseDTO> getAllProducts();
 

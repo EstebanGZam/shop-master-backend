@@ -16,5 +16,4 @@ public class ProductRequestDTO {
     private Integer stockQuantity;
     private String sizeId;
     private String categoryId;
-    private String imageId;
 }
