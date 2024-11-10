@@ -51,6 +51,9 @@ dependencies {
 	// Dependencia de MapStruct
 	implementation 'org.mapstruct:mapstruct:1.5.0.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.0.Final'
+
+	// Dependencia para Cloudinary
+	implementation 'com.cloudinary:cloudinary-http44:1.39.0'
 }
 
 tasks.named('test') {
