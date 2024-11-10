@@ -1,5 +1,6 @@
 package com.shop_master_backend.exception;
 
+import com.shop_master_backend.exception.runtime.ProductNotFoundException;
 import com.shop_master_backend.exception.runtime.RoleNotFoundException;
 import com.shop_master_backend.exception.runtime.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -56,9 +57,14 @@ public class GlobalExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ProblemDetail handleRoleNotFoundException(ProductNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGeneralException(Exception ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown internal server error.");
     }
-    
+
 }
