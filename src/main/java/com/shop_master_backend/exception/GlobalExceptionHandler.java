@@ -1,8 +1,6 @@
 package com.shop_master_backend.exception;
 
-import com.shop_master_backend.exception.runtime.ProductNotFoundException;
-import com.shop_master_backend.exception.runtime.RoleNotFoundException;
-import com.shop_master_backend.exception.runtime.UserNotFoundException;
+import com.shop_master_backend.exception.runtime.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
@@ -58,7 +56,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ProblemDetail handleRoleNotFoundException(ProductNotFoundException ex) {
+    public ProblemDetail handleProductNotFoundException(ProductNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ProblemDetail handleCategoryNotFoundException(CategoryNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(SizeNotFoundException.class)
+    public ProblemDetail handleSizeNotFoundException(SizeNotFoundException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
