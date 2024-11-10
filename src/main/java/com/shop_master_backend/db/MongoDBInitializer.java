@@ -1,91 +1,157 @@
 package com.shop_master_backend.db;
 
 import com.shop_master_backend.entity.mongodb.*;
-import com.shop_master_backend.repository.ProductRepository;
-import com.shop_master_backend.repository.ReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shop_master_backend.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class MongoDBInitializer {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final CategoryRepository categoryRepository;
+    private final ImageRepository imageRepository;
+    private final ProductRepository productRepository;
+    private final ReviewRepository reviewRepository;
+    private final SizeRepository sizeRepository;
 
     @Bean
     CommandLineRunner initDatabase() {
         return args -> {
+            categoryRepository.deleteAll();
+            imageRepository.deleteAll();
             productRepository.deleteAll();
             reviewRepository.deleteAll();
+            sizeRepository.deleteAll();
 
-            Category shirtCategory = new Category();
-            shirtCategory.setId("001");
-            shirtCategory.setName("Camisas");
-            shirtCategory.setDescription("Ropa formal y casual para hombres y mujeres");
+            // Crear categorías
+            Category shirtCategory = Category.builder()
+                    .id("001")
+                    .name("Camisetas")
+                    .description("Ropa formal y casual para hombres y mujeres")
+                    .build();
+            categoryRepository.save(shirtCategory);
 
-            Category pantsCategory = new Category();
-            pantsCategory.setId("002");
-            pantsCategory.setName("Pantalones");
-            pantsCategory.setDescription("Pantalones de mezclilla, chinos y más");
+            Category pantsCategory = Category.builder()
+                    .id("002")
+                    .name("Pantalones")
+                    .description("Pantalones de mezclilla, chinos y más")
+                    .build();
+            categoryRepository.save(pantsCategory);
 
-            Size sizeSmall = new Size();
-            sizeSmall.setId("001");
-            sizeSmall.setName("S");
+            Category sweatshirtCategory = Category.builder()
+                    .id("003")
+                    .name("Buzos")
+                    .description("Buzos cómodos para clima frío")
+                    .build();
+            categoryRepository.save(sweatshirtCategory);
 
-            Size sizeMedium = new Size();
-            sizeMedium.setId("002");
-            sizeMedium.setName("M");
+            Category jacketCategory = Category.builder()
+                    .id("004")
+                    .name("Chaquetas")
+                    .description("Chaquetas para clima frío y de moda")
+                    .build();
+            categoryRepository.save(jacketCategory);
 
-            Image sampleImage = new Image();
-            sampleImage.setId("001");
-            sampleImage.setContent(new byte[]{});
+            // Crear tamaños
+            Size sizeSmall = Size.builder()
+                    .id("001")
+                    .name("S")
+                    .build();
+            sizeRepository.save(sizeSmall);
 
-            Product shirtProduct = new Product();
-            shirtProduct.setId("001");
-            shirtProduct.setName("Camisa de algodón");
-            shirtProduct.setDescription("Camisa de algodón 100% para uso diario");
-            shirtProduct.setPrice(29.99);
-            shirtProduct.setStockQuantity(50);
-            shirtProduct.setSize(sizeSmall);
-            shirtProduct.setCategory(shirtCategory);
-            shirtProduct.setImage(sampleImage);
+            Size sizeMedium = Size.builder()
+                    .id("002")
+                    .name("M")
+                    .build();
+            sizeRepository.save(sizeMedium);
 
-            productRepository.save(shirtProduct);
+            Size sizeLarge = Size.builder()
+                    .id("003")
+                    .name("L")
+                    .build();
+            sizeRepository.save(sizeLarge);
 
-            Product pantsProduct = new Product();
-            pantsProduct.setId("002");
-            pantsProduct.setName("Jeans de mezclilla");
-            pantsProduct.setDescription("Jeans ajustados de mezclilla azul oscuro");
-            pantsProduct.setPrice(49.99);
-            pantsProduct.setStockQuantity(30);
-            pantsProduct.setSize(sizeMedium);
-            pantsProduct.setCategory(pantsCategory);
-            pantsProduct.setImage(sampleImage);
+            Size sizeXLarge = Size.builder()
+                    .id("004")
+                    .name("XL")
+                    .build();
+            sizeRepository.save(sizeXLarge);
 
+            // Crear una imagen de ejemplo
+            Image image = Image.builder()
+                    .id("001")
+                    .url("https://res.cloudinary.com/dwlrgpkgz/image/upload/v1/products/9GeRjyvDkLLvCH6S23rR")
+                    .build();
+            imageRepository.save(image);
+
+            // Crear productos
+            Product pantsProduct = Product.builder()
+                    .id("001")
+                    .name("Jeans de mezclilla")
+                    .description("Jeans ajustados de mezclilla azul oscuro")
+                    .price(49.99)
+                    .stockQuantity(30)
+                    .size(sizeMedium)
+                    .category(pantsCategory)
+                    .image(image)
+                    .build();
             productRepository.save(pantsProduct);
 
-            Review shirtReview = new Review();
-            shirtReview.setId("001");
-            shirtReview.setProductId(shirtProduct.getId());
-            shirtReview.setUserId(1);
-            shirtReview.setRating(4);
-            shirtReview.setComment("Muy cómoda y de buena calidad.");
+            Product shirtProduct = Product.builder()
+                    .id("002")
+                    .name("Camisa de algodón")
+                    .description("Camisa de algodón 100% para uso diario")
+                    .price(29.99)
+                    .stockQuantity(50)
+                    .size(sizeSmall)
+                    .category(shirtCategory)
+                    .image(image)
+                    .build();
+            productRepository.save(shirtProduct);
 
+            Product sweatshirtProduct = Product.builder()
+                    .id("003")
+                    .name("Buzo Pullover")
+                    .description("Buzo pullover negro para climas fríos")
+                    .price(59.99)
+                    .stockQuantity(40)
+                    .size(sizeMedium)
+                    .category(sweatshirtCategory)
+                    .image(image)
+                    .build();
+            productRepository.save(sweatshirtProduct);
+
+            // Crear reseñas
+            Review pantsReview = Review.builder()
+                    .id("001")
+                    .productId(pantsProduct.getId())
+                    .userId(1)
+                    .rating(5)
+                    .comment("Excelente ajuste y material resistente.")
+                    .build();
+            reviewRepository.save(pantsReview);
+
+            Review shirtReview = Review.builder()
+                    .id("002")
+                    .productId(shirtProduct.getId())
+                    .userId(2)
+                    .rating(4)
+                    .comment("Muy cómoda y de buena calidad.")
+                    .build();
             reviewRepository.save(shirtReview);
 
-            Review pantsReview = new Review();
-            pantsReview.setId("002");
-            pantsReview.setProductId(pantsProduct.getId());
-            pantsReview.setUserId(2);
-            pantsReview.setRating(5);
-            pantsReview.setComment("Excelente ajuste y material resistente.");
-
-            reviewRepository.save(pantsReview);
+            Review sweatshirtReview = Review.builder()
+                    .id("003")
+                    .productId(sweatshirtProduct.getId())
+                    .userId(3)
+                    .rating(4)
+                    .comment("Perfecto para el invierno, muy abrigado.")
+                    .build();
+            reviewRepository.save(sweatshirtReview);
         };
     }
+
 }
