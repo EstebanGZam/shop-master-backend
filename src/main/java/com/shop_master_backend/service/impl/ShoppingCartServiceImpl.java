@@ -101,6 +101,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toResponseDTO(cart);
     }
 
+    @Override
+    public ShoppingCart getCartEntity(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        return shoppingCartRepository.findByUser(user)
+                .orElseThrow(() -> new ShoppingCartNotFoundException("Cart not found"));
+    }
+
+    @Override
+    @Transactional
+    public void clearCart(String username) {
+        ShoppingCart cart = getUserCart(username);
+        cart.getShoppingCartProducts().clear();
+        shoppingCartRepository.save(cart);
+    }
+
     private ShoppingCart getUserCart(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));

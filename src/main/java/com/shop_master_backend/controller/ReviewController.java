@@ -16,7 +16,6 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @PreAuthorize("hasRole('CLIENTE')")
     @PostMapping
     public ResponseEntity<ReviewResponseDTO> addReview(@RequestBody ReviewRequestDTO reviewRequestDTO) {
         ReviewResponseDTO review = reviewService.addReview(reviewRequestDTO);

@@ -3,4 +3,8 @@ package com.shop_master_backend.repository;
 import com.shop_master_backend.entity.mongodb.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface ProductRepository extends MongoRepository<Product, String> {}
+import java.util.Optional;
+
+public interface ProductRepository extends MongoRepository<Product, String> {
+    Optional<Product> findById(String id);
+}
