@@ -49,8 +49,8 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    @OneToMany(mappedBy = "user")
-    private List<ShoppingCart> shoppingCarts;
+    @OneToOne(mappedBy = "user")
+    private ShoppingCart shoppingCart;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;

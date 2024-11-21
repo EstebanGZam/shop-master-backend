@@ -25,7 +25,7 @@ public class ShoppingCart {
     @Column(name = "creation_date")
     private LocalDateTime creationDate = LocalDateTime.now();
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
