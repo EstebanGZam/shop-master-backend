@@ -3,8 +3,10 @@ package com.shop_master_backend.config;
 
 import com.shop_master_backend.security.JWTAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,14 +16,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-import java.util.List;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity()
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -36,8 +38,8 @@ public class SecurityConfiguration {
         return http
                 // Desactiva la protección CSRF, ya que se gestionará mediante tokens JWT
                 .csrf(AbstractHttpConfigurer::disable)
-                // Habilitar la configuración del CORS
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // Deshabilitar el CORS, ya que se configurará manualmente con un filtro separado
+                .cors(cors -> cors.disable())
                 // Configuración de las reglas de autorización de las solicitudes HTTP.
                 .authorizeHttpRequests(authRequest -> authRequest
                         // Permitir el acceso a recursos estáticos.
@@ -58,26 +60,34 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Configuración de CORS para permitir solicitudes desde dominios específicos.
+     * Configura un filtro CORS global para manejar las solicitudes desde cualquier origen.
      */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        // Define el dominio permitido
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://127.0.0.1:8081"));
-
-        // Define los métodos HTTP permitidos en las solicitudes CORS
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-
-        // Define los encabezados permitidos en las solicitudes CORS, como "Authorization" y "Content-Type"
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-
-        // Asigna las configuraciones de CORS a todas las rutas
+    public FilterRegistrationBean<?> simpleCorsFilter() {
+        // Configuración de la fuente CORS basada en URL
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        CorsConfiguration config = new CorsConfiguration();
 
-        return source;
+        // Permitir el envío de cookies y credenciales
+        config.setAllowCredentials(true);
+
+        // Permitir todos los dominios
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+
+        // Permitir todos los métodos HTTP
+        config.setAllowedMethods(Collections.singletonList("*"));
+
+        // Permitir todos los encabezados
+        config.setAllowedHeaders(Collections.singletonList("*"));
+
+        // Registrar la configuración para todas las rutas (/**)
+        source.registerCorsConfiguration("/**", config);
+
+        // Registrar el filtro con la configuración definida y establecer alta prioridad
+        FilterRegistrationBean<?> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
+        return bean;
     }
 
 }
