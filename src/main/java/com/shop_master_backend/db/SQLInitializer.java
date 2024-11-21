@@ -18,7 +18,17 @@ public class SQLInitializer {
     @PostConstruct
     @Transactional
     public void init() throws Exception {
+        loadTriggers();
         loadImportSql();
+    }
+
+    private void loadTriggers() {
+        try {
+            String sql = new String(Files.readAllBytes(Paths.get("src/main/resources/trigger.sql")));
+            jdbcTemplate.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadImportSql() throws Exception {
