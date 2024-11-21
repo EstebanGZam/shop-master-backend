@@ -37,6 +37,7 @@ public abstract class ShoppingCartMapper {
                 .quantity(shoppingCartProduct.getQuantity())
                 .price(product.getPrice())
                 .total(product.getPrice() * shoppingCartProduct.getQuantity())
+                .imageUrl(product.getImage().getUrl())
                 .build();
     }
 

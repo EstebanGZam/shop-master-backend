@@ -16,4 +16,5 @@ public class ShoppingCartProductDTO {
     private Integer quantity;
     private Double price;
     private Double total;
+    private String imageUrl;
 }
