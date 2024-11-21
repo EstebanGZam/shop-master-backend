@@ -12,7 +12,6 @@ INSERT INTO users (username, password, email, address) VALUES ('Juan Muñoz', '$
 
 -- Insertando los usuarios y sus roles en la tabla cruzada
 INSERT INTO user_role (user_id, role_id) VALUES (1, 1);
-INSERT INTO user_role (user_id, role_id) VALUES (1, 2);
 INSERT INTO user_role (user_id, role_id) VALUES (2, 2);
 INSERT INTO user_role (user_id, role_id) VALUES (3, 2);
 INSERT INTO user_role (user_id, role_id) VALUES (4, 2);
