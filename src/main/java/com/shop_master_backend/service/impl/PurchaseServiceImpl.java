@@ -34,7 +34,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         if (cart.getShoppingCartProducts().isEmpty()) {
             throw new ShoppingCartNotFoundException("Shopping cart is empty");
         }
-
         Order order = purchaseMapper.toOrder(cart);
         order.setUser(user);
         order.setTotal(cart.getShoppingCartProducts().stream()
@@ -45,27 +44,29 @@ public class PurchaseServiceImpl implements PurchaseService {
                 })
                 .sum());
 
+        cart.getShoppingCartProducts().forEach(cartProduct -> {
+            Product product = productRepository.findById(cartProduct.getProduct())
+                    .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+            product.setStockQuantity(product.getStockQuantity() - cartProduct.getQuantity());
+            productRepository.save(product);
+        });
+
         order.getOrderDetails().forEach(orderDetail -> {
             orderDetail.setOrder(order);
             Product product = productRepository.findById(orderDetail.getProduct())
                     .orElseThrow(() -> new ProductNotFoundException("Product not found"));
             orderDetail.setUnitPrice(product.getPrice());
         });
-
         orderRepository.save(order);
 
         PaymentDetail paymentDetail = purchaseMapper.toPaymentDetail(purchaseRequestDTO.getPaymentDetail());
         paymentDetail.setOrder(order);
-
         Invoice invoice = Invoice.builder()
                 .order(order)
                 .total(order.getTotal())
                 .build();
-
         invoiceRepository.save(invoice);
-
         shoppingCartService.clearCart(username);
-
         return purchaseMapper.toInvoiceResponseDTO(invoice);
     }
 
