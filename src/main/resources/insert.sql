@@ -31,6 +31,10 @@ INSERT INTO order_details (quantity, unit_price, order_id, product_id) VALUES (1
 -- Detalle orden 1
 INSERT INTO order_details (quantity, unit_price, order_id, product_id) VALUES (1, 29.99, 1, '002');
 
+-- Detalles de pago con tarjeta de crédito para primera orden
+INSERT INTO payment_details (card_number, cardholder_name, cardholder_lastname, security_code, expiration_date, order_id, payment_method_id) VALUES (123456, 'Esteban', 'Gaviria', '123', '2025-12-31 00:00:00', 1, 1);
+
+
 -- Factura para primera orden
 INSERT INTO invoices (issue_date, total, order_id) VALUES ('2024-03-15 10:31:00', 79.98, 1);
 
@@ -39,6 +43,9 @@ INSERT INTO orders (order_date, total, user_id) VALUES ('2024-03-20 15:45:00', 1
 
 -- Detalle orden 2
 INSERT INTO order_details (quantity, unit_price, order_id, product_id) VALUES (2, 59.99, 2, '003');
+
+-- Detalles de pago con tarjeta de débito para segunda orden
+INSERT INTO payment_details (card_number, cardholder_name, cardholder_lastname, security_code, expiration_date, order_id, payment_method_id) VALUES (789012, 'Esteban', 'Gaviria', '456', '2026-06-30 00:00:00',2,2);
 
 -- Factura para segunda orden
 INSERT INTO invoices (issue_date, total, order_id) VALUES ('2024-03-20 15:46:00', 119.98, 2);

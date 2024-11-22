@@ -26,7 +26,7 @@ public class PurchaseController {
         return purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
     }
 
-    @GetMapping("/history")
+    @GetMapping("/order-history")
     public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
         try {
             List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
