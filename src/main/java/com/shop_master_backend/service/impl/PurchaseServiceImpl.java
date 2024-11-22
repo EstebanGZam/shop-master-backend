@@ -47,6 +47,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         cart.getShoppingCartProducts().forEach(cartProduct -> {
             Product product = productRepository.findById(cartProduct.getProduct())
                     .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+            if (product.getStockQuantity() < cartProduct.getQuantity()) {
+                throw new RuntimeException("Insufficient stock for product: " + product.getName());
+            }
             product.setStockQuantity(product.getStockQuantity() - cartProduct.getQuantity());
             productRepository.save(product);
         });
