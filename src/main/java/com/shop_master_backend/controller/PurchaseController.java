@@ -18,23 +18,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseController {
 
-    private final PurchaseService purchaseService;
+	private final PurchaseService purchaseService;
 
-    @PostMapping
-    public InvoiceResponseDTO makePurchase(@RequestBody PurchaseRequestDTO purchaseRequestDTO,
-                                           @AuthenticationPrincipal User user) {
-        return purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
-    }
+	@PostMapping
+	public ResponseEntity<InvoiceResponseDTO> makePurchase(@RequestBody PurchaseRequestDTO purchaseRequestDTO,
+														   @AuthenticationPrincipal User user) {
+		try {
+			InvoiceResponseDTO invoice = purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
+			return ResponseEntity.ok(invoice); // Retorna un 200 con el DTO
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
 
-    @GetMapping("/order-history")
-    public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
-        try {
-            List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+	@GetMapping("/order-history")
+	public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
+		try {
+			List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
