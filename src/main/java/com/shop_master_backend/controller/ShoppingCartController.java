@@ -39,6 +39,12 @@ public class ShoppingCartController {
         return shoppingCartService.removeProductFromCart(productId, user.getUsername());
     }
 
+    @PatchMapping("/clear")
+    public ShoppingCartResponseDTO clearCart(@AuthenticationPrincipal User user) {
+        shoppingCartService.clearCart(user.getUsername());
+        return shoppingCartService.getCart(user.getUsername());
+    }
+
     @GetMapping
     public ShoppingCartResponseDTO getCart(@AuthenticationPrincipal User user) {
         return shoppingCartService.getCart(user.getUsername());
