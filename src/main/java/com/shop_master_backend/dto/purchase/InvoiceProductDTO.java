@@ -15,4 +15,5 @@ public class InvoiceProductDTO {
     private Integer quantity;
     private Double price;
     private Double total;
+    private String imageUrl;
 }
