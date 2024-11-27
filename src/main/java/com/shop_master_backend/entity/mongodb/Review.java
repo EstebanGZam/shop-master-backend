@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Document(collection = "reviews")
 public class Review {
-    @Id
-    private String id;
-    private Integer rating;
-    private String comment;
-    @Builder.Default
-    private LocalDateTime date = LocalDateTime.now();
+	@Id
+	private String id;
+	private Double rating;
+	private String comment;
+	@Builder.Default
+	private LocalDateTime date = LocalDateTime.now();
 
-    private String productId;
-    private Integer userId;
+	private String productId;
+	private Integer userId;
 }

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -13,31 +14,23 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class SQLInitializer {
 
-    private final JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 
-    @PostConstruct
-    @Transactional
-    public void init() throws Exception {
-        loadTriggers();
-        loadImportSql();
-    }
+	@PostConstruct
+	@Transactional
+	public void init() throws IOException {
+		loadTriggers();
+		loadImportSql();
+	}
 
-    private void loadTriggers() {
-        try {
-            String sql = new String(Files.readAllBytes(Paths.get("src/main/resources/trigger.sql")));
-            jdbcTemplate.execute(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	private void loadTriggers() throws IOException {
+		String sql = new String(Files.readAllBytes(Paths.get("src/main/resources/trigger.sql")));
+		jdbcTemplate.execute(sql);
+	}
 
-    private void loadImportSql() throws Exception {
-        try {
-            String sql = new String(Files.readAllBytes(Paths.get("src/main/resources/insert.sql")));
-            jdbcTemplate.execute(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	private void loadImportSql() throws IOException {
+		String sql = new String(Files.readAllBytes(Paths.get("src/main/resources/insert.sql")));
+		jdbcTemplate.execute(sql);
+	}
 
 }

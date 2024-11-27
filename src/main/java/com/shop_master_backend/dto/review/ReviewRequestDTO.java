@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRequestDTO {
-    private Integer rating;
-    private String comment;
-    private String productId;
-    private Integer userId;
+	private Double rating;
+	private String comment;
+	private String productId;
+	private Integer userId;
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReviewResponseDTO {
     private String id;
-    private Integer rating;
+    private Double rating;
     private String comment;
     private LocalDateTime date;
     private String productId;
