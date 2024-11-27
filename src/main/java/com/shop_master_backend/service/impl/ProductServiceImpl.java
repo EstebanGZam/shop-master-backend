@@ -27,56 +27,66 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private final CloudinaryService cloudinaryService;
-    private final CategoryRepository categoryRepository;
-    private final ImageRepository imageRepository;
-    private final ProductRepository productRepository;
-    private final SizeRepository sizeRepository;
-    private final ProductMapper productMapper;
+	private final CloudinaryService cloudinaryService;
+	private final CategoryRepository categoryRepository;
+	private final ImageRepository imageRepository;
+	private final ProductRepository productRepository;
+	private final SizeRepository sizeRepository;
+	private final ProductMapper productMapper;
 
-    @Override
-    public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO, MultipartFile image) {
-        // Obtener el Size y Category y lanzar excepción si no existen
-        Size size = sizeRepository.findById(productRequestDTO.getSizeId())
-                .orElseThrow(() -> new SizeNotFoundException("Size not found"));
-        Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+	@Override
+	public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO, MultipartFile image) {
+		// Obtener el Size y Category y lanzar excepción si no existen
+		Size size = sizeRepository.findById(productRequestDTO.getSizeId())
+				.orElseThrow(() -> new SizeNotFoundException("Size not found"));
+		Category category = categoryRepository.findById(productRequestDTO.getCategoryId())
+				.orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        // Subir la imagen a Cloudinary
-        String imageUrl = cloudinaryService.uploadFile(image, "products");
+		// Subir la imagen a Cloudinary
+		String imageUrl = cloudinaryService.uploadFile(image, "products");
 
-        // Crear y guardar la imagen asociada al producto
-        Image productImage = Image.builder()
-                .url(imageUrl)
-                .build();
-        imageRepository.save(productImage);
+		// Crear y guardar la imagen asociada al producto
+		Image productImage = Image.builder()
+				.url(imageUrl)
+				.build();
+		imageRepository.save(productImage);
 
-        // Mapear el DTO a la entidad Product
-        Product product = productMapper.toProduct(productRequestDTO);
+		// Mapear el DTO a la entidad Product
+		Product product = productMapper.toProduct(productRequestDTO);
 
-        // Asignar las entidades obtenidas (size, category y imagen) al producto
-        product.setSize(size);
-        product.setCategory(category);
-        product.setImage(productImage);
+		// Asignar las entidades obtenidas (size, category e imagen) al producto
+		product.setSize(size);
+		product.setCategory(category);
+		product.setImage(productImage);
 
-        // Guardar el producto en la base de datos
-        product = productRepository.save(product);
+		// Guardar el producto en la base de datos
+		product = productRepository.save(product);
 
-        return productMapper.toProductResponseDTO(product);
-    }
+		return productMapper.toProductResponseDTO(product);
+	}
 
-    @Override
-    public List<ProductResponseDTO> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(productMapper::toProductResponseDTO)
-                .collect(Collectors.toList());
-    }
+	@Override
+	public List<ProductResponseDTO> getAllProducts() {
+		return productRepository.findAll().stream()
+				.map(productMapper::toProductResponseDTO)
+				.collect(Collectors.toList());
+	}
 
-    @Override
-    public ProductResponseDTO getProductById(String id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
-        return productMapper.toProductResponseDTO(product);
-    }
+	@Override
+	public ProductResponseDTO getProductById(String id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ProductNotFoundException("Product not found"));
+		return productMapper.toProductResponseDTO(product);
+	}
+
+	@Override
+	public List<ProductResponseDTO> getProductsBySize(String sizeId) {
+		Size size = sizeRepository.findById(sizeId)
+				.orElseThrow(() -> new SizeNotFoundException("Size not found"));
+		List<Product> products = productRepository.findBySizeAndStockQuantityGreaterThan(size, 0);
+		return products.stream()
+				.map(productMapper::toProductResponseDTO)
+				.toList();
+	}
 
 }
