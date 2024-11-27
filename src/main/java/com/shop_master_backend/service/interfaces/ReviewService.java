@@ -6,7 +6,9 @@ import com.shop_master_backend.dto.review.ReviewResponseDTO;
 import java.util.List;
 
 public interface ReviewService {
-    ReviewResponseDTO addReview(ReviewRequestDTO reviewRequestDTO);
+	ReviewResponseDTO addReview(ReviewRequestDTO reviewRequestDTO);
 
-    List<ReviewResponseDTO> getReviewsByProductId(String productId);
+	List<ReviewResponseDTO> getReviewsByProductId(String productId);
+
+	List<ReviewResponseDTO> getReviewsByRatingRange(Double minRating, Double maxRating);
 }
