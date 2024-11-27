@@ -60,5 +60,11 @@ public class ProductController {
 		}
 	}
 
+	@GetMapping("/filter-by-category")
+	public ResponseEntity<List<ProductResponseDTO>> filterProductsByCategory(@RequestParam String categoryId) {
+		List<ProductResponseDTO> products = productService.getProductsByCategory(categoryId);
+		return ResponseEntity.ok(products);
+	}
+
 
 }

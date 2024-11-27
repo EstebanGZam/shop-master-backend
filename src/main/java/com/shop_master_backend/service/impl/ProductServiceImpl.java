@@ -89,4 +89,14 @@ public class ProductServiceImpl implements ProductService {
 				.toList();
 	}
 
+	@Override
+	public List<ProductResponseDTO> getProductsByCategory(String categoryId) {
+		Category category = categoryRepository.findById(categoryId)
+				.orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+		List<Product> products = productRepository.findByCategory(category);
+		return products.stream()
+				.map(productMapper::toProductResponseDTO)
+				.collect(Collectors.toList());
+	}
+
 }

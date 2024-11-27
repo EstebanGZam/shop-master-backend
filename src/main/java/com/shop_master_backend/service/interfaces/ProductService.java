@@ -15,4 +15,6 @@ public interface ProductService {
     ProductResponseDTO getProductById(String id);
 
     List<ProductResponseDTO> getProductsBySize(String size);
+
+    List<ProductResponseDTO> getProductsByCategory(String categoryId);
 }
