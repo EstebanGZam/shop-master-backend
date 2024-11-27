@@ -80,12 +80,24 @@ public class MongoDBInitializer {
 					.build();
 			sizeRepository.save(sizeXLarge);
 
-			// Crear una imagen de ejemplo
-			Image image = Image.builder()
+			// Crear una imagen para cada producto
+			Image jeansImage = Image.builder()
 					.id("001")
-					.url("https://res.cloudinary.com/dwlrgpkgz/image/upload/v1/products/9GeRjyvDkLLvCH6S23rR")
+					.url("https://amigosafety.com/images/productos/1680213793_PANTALON%20FRENTE.png")
 					.build();
-			imageRepository.save(image);
+			imageRepository.save(jeansImage);
+
+			Image shirtImage = Image.builder()
+					.id("002")
+					.url("https://www.bestsub.com/media/k2/galleries/7009/JA180MV.webp")
+					.build();
+			imageRepository.save(shirtImage);
+
+			Image sweatshirtImage = Image.builder()
+					.id("003")
+					.url("https://vansco.vteximg.com.br/arquivos/ids/340280-1000-1000/VN0A7TJPBLK-1.jpg?v=638545982599500000")
+					.build();
+			imageRepository.save(sweatshirtImage);
 
 			// Crear productos
 			Product pantsProduct = Product.builder()
@@ -96,7 +108,7 @@ public class MongoDBInitializer {
 					.stockQuantity(30)
 					.size(sizeMedium)
 					.category(pantsCategory)
-					.image(image)
+					.image(jeansImage)
 					.build();
 			productRepository.save(pantsProduct);
 
@@ -108,7 +120,7 @@ public class MongoDBInitializer {
 					.stockQuantity(50)
 					.size(sizeSmall)
 					.category(shirtCategory)
-					.image(image)
+					.image(shirtImage)
 					.build();
 			productRepository.save(shirtProduct);
 
@@ -120,7 +132,7 @@ public class MongoDBInitializer {
 					.stockQuantity(40)
 					.size(sizeMedium)
 					.category(sweatshirtCategory)
-					.image(image)
+					.image(sweatshirtImage)
 					.build();
 			productRepository.save(sweatshirtProduct);
 
