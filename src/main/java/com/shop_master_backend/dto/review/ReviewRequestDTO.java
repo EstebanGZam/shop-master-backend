@@ -13,5 +13,4 @@ public class ReviewRequestDTO {
 	private Double rating;
 	private String comment;
 	private String productId;
-	private Integer userId;
 }

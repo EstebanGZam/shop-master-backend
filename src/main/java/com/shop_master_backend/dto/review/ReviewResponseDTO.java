@@ -17,5 +17,5 @@ public class ReviewResponseDTO {
     private String comment;
     private LocalDateTime date;
     private String productId;
-    private Integer userId;
+    private String username;
 }
