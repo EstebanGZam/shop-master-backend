@@ -15,4 +15,8 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 	List<Product> findBySizeAndStockQuantityGreaterThan(Size size, Integer stockQuantity);
 
 	List<Product> findByCategory(Category category);
+
+	List<Product> findBySizeAndCategory(Size size, Category category);
+
+	List<Product> findBySize(Size size);
 }

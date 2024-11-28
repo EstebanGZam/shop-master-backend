@@ -99,4 +99,31 @@ public class ProductServiceImpl implements ProductService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public List<ProductResponseDTO> filterProducts(String sizeId, String categoryId) {
+		List<Product> products;
+
+		if (sizeId != null && categoryId != null) {
+			Size size = sizeRepository.findById(sizeId)
+					.orElseThrow(() -> new SizeNotFoundException("Size not found"));
+			Category category = categoryRepository.findById(categoryId)
+					.orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+			products = productRepository.findBySizeAndCategory(size, category);
+		} else if (sizeId != null) {
+			Size size = sizeRepository.findById(sizeId)
+					.orElseThrow(() -> new SizeNotFoundException("Size not found"));
+			products = productRepository.findBySize(size);
+		} else if (categoryId != null) {
+			Category category = categoryRepository.findById(categoryId)
+					.orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+			products = productRepository.findByCategory(category);
+		} else {
+			products = productRepository.findAll();
+		}
+
+		return products.stream()
+				.map(productMapper::toProductResponseDTO)
+				.collect(Collectors.toList());
+	}
+
 }

@@ -66,5 +66,12 @@ public class ProductController {
 		return ResponseEntity.ok(products);
 	}
 
+	@GetMapping("/filter")
+	public ResponseEntity<List<ProductResponseDTO>> filterProducts(
+			@RequestParam(required = false) String size,
+			@RequestParam(required = false) String categoryId) {
+		List<ProductResponseDTO> products = productService.filterProducts(size, categoryId);
+		return ResponseEntity.ok(products);
+	}
 
 }
