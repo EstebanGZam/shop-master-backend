@@ -53,6 +53,14 @@ public class PurchaseServiceImpl implements PurchaseService {
             }
         });
 
+        // Disminuir la cantidad de productos del stock
+        cart.getShoppingCartProducts().forEach(cartProduct -> {
+            Product product = productRepository.findById(cartProduct.getProduct())
+                    .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+            product.setStockQuantity(product.getStockQuantity() - cartProduct.getQuantity());
+            productRepository.save(product);
+        });
+
         // Crear y guardar orden
         Order order = purchaseMapper.toOrder(cart, user);
         order = orderRepository.save(order);

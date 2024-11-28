@@ -3,7 +3,6 @@ package com.shop_master_backend.controller;
 import com.shop_master_backend.dto.purchase.InvoiceResponseDTO;
 import com.shop_master_backend.dto.purchase.PurchaseRequestDTO;
 import com.shop_master_backend.entity.sql.User;
-import com.shop_master_backend.exception.runtime.UserNotFoundException;
 import com.shop_master_backend.service.interfaces.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,28 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseController {
 
-	private final PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
 
-	@PostMapping
-	public ResponseEntity<InvoiceResponseDTO> makePurchase(@RequestBody PurchaseRequestDTO purchaseRequestDTO,
-														   @AuthenticationPrincipal User user) {
-		try {
-			InvoiceResponseDTO invoice = purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
-			return ResponseEntity.ok(invoice); // Retorna un 200 con el DTO
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-	}
+    @PostMapping
+    public ResponseEntity<InvoiceResponseDTO> makePurchase(@RequestBody PurchaseRequestDTO purchaseRequestDTO,
+                                                           @AuthenticationPrincipal User user) {
+        InvoiceResponseDTO invoice = purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
+        return ResponseEntity.ok(invoice);
+    }
 
-	@GetMapping("/order-history")
-	public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
-		try {
-			List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} catch (UserNotFoundException e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+    @GetMapping("/order-history")
+    public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
+        List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
