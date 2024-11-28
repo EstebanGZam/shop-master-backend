@@ -7,10 +7,12 @@ import java.util.List;
 
 public interface PurchaseService {
 
-    InvoiceResponseDTO makePurchase(PurchaseRequestDTO purchaseRequestDTO, String username);
+	InvoiceResponseDTO makePurchase(PurchaseRequestDTO purchaseRequestDTO, String username);
 
-    InvoiceResponseDTO getInvoice(Integer invoiceId);
+	InvoiceResponseDTO getInvoice(Integer invoiceId);
 
-    List<InvoiceResponseDTO> getPurchaseHistory(String username);
+	List<InvoiceResponseDTO> getPurchaseHistory(String username);
+
+	Boolean hasUserPurchasedProduct(Integer userId, String productId);
 
 }

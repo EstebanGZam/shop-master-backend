@@ -22,27 +22,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseController {
 
-    private final PurchaseService purchaseService;
-    private final ProductService productService;
-    private final ApplicationEventPublisher eventPublisher;
+	private final PurchaseService purchaseService;
+	private final ProductService productService;
+	private final ApplicationEventPublisher eventPublisher;
 
 
-    @PostMapping
-    public ResponseEntity<InvoiceResponseDTO> makePurchase(@RequestBody PurchaseRequestDTO purchaseRequestDTO,
-                                                           @AuthenticationPrincipal User user) {
-        InvoiceResponseDTO invoice = purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
+	@PostMapping
+	public ResponseEntity<InvoiceResponseDTO> makePurchase(@RequestBody PurchaseRequestDTO purchaseRequestDTO,
+														   @AuthenticationPrincipal User user) {
+		InvoiceResponseDTO invoice = purchaseService.makePurchase(purchaseRequestDTO, user.getUsername());
 
-        // Notificar actualización de productos a la página principal
-        List<ProductResponseDTO> products = productService.getAllProducts();
-        eventPublisher.publishEvent(new EntityUpdateEvent<>(NotificationTopics.PRODUCTS, products));
+		// Notificar actualización de productos a la página principal
+		List<ProductResponseDTO> products = productService.getAllProducts();
+		eventPublisher.publishEvent(new EntityUpdateEvent<>(NotificationTopics.PRODUCTS, products));
 
-        return ResponseEntity.ok(invoice);
-    }
+		return ResponseEntity.ok(invoice);
+	}
 
-    @GetMapping("/order-history")
-    public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
-        List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+	@GetMapping("/order-history")
+	public ResponseEntity<List<InvoiceResponseDTO>> getPurchaseHistory(@AuthenticationPrincipal User user) {
+		List<InvoiceResponseDTO> response = purchaseService.getPurchaseHistory(user.getUsername());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	// Endpoint para verificar si el usuario ha comprado un producto
+	@GetMapping("/consult-purchase/{productId}")
+	public ResponseEntity<Boolean> hasUserPurchasedProduct(@AuthenticationPrincipal User user, @PathVariable String productId) {
+		return ResponseEntity.ok(purchaseService.hasUserPurchasedProduct(user.getId(), productId));
+	}
 
 }

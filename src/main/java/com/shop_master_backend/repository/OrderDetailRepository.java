@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
 
-    List<OrderDetail> findByOrderId(Integer orderId);
+	List<OrderDetail> findByOrderId(Integer orderId);
+
+	// Buscar si el usuario ha comprado un producto
+	List<OrderDetail> findByOrderUserIdAndProduct(Integer userId, String productId);
 
 }
