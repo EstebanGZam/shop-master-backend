@@ -46,6 +46,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/styles/**", "/images/**").permitAll()
                         // Permitir todas las solicitudes que comiencen con /auth, como login o registro.
                         .requestMatchers("/auth/**").permitAll()
+                        // Permitir conexiones SSE
+                        .requestMatchers("/products/stream").permitAll()
                         // Cualquier otra solicitud debe estar autenticada.
                         .anyRequest().authenticated()
                 )

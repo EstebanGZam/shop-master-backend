@@ -1,23 +1,57 @@
 package com.shop_master_backend.controller;
 
+import com.shop_master_backend.constant.NotificationTopics;
 import com.shop_master_backend.dto.review.ReviewRequestDTO;
 import com.shop_master_backend.dto.review.ReviewResponseDTO;
+import com.shop_master_backend.event.EntityUpdateEvent;
+import com.shop_master_backend.service.interfaces.NotificationService;
 import com.shop_master_backend.service.interfaces.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
-	private final ReviewService reviewService;
+
+    private final ReviewService reviewService;
+    private final NotificationService notificationService;
+    private final ApplicationEventPublisher eventPublisher;
+
+    @GetMapping(path = "/stream/{productId}")
+    public SseEmitter streamReviews(@PathVariable String productId) {
+        SseEmitter emitter = notificationService.subscribe(NotificationTopics.PRODUCTS);
+
+        try {
+            List<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(productId);
+            emitter.send(SseEmitter.event()
+                    .name(NotificationTopics.REVIEWS)
+                    .data(reviews));
+        } catch (IOException e) {
+            emitter.completeWithError(e);
+        }
+
+        return emitter;
+    }
+
+    private void notifyProductUpdate(String productId) {
+        List<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(productId);
+        eventPublisher.publishEvent(new EntityUpdateEvent<>(NotificationTopics.REVIEWS, reviews));
+    }
 
 	@PostMapping
 	public ResponseEntity<ReviewResponseDTO> addReview(@RequestBody ReviewRequestDTO reviewRequestDTO) {
 		ReviewResponseDTO review = reviewService.addReview(reviewRequestDTO);
+
+        // Notifica cualquier actualización en las reviews a los clientes
+        notifyProductUpdate(reviewRequestDTO.getProductId());
+
 		return ResponseEntity.ok(review);
 	}
 

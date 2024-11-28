@@ -1,16 +1,22 @@
 package com.shop_master_backend.controller;
 
+import com.shop_master_backend.constant.NotificationTopics;
 import com.shop_master_backend.dto.product.ProductRequestDTO;
 import com.shop_master_backend.dto.product.ProductResponseDTO;
+import com.shop_master_backend.event.EntityUpdateEvent;
 import com.shop_master_backend.exception.runtime.SizeNotFoundException;
 import com.shop_master_backend.service.impl.ProductServiceImpl;
+import com.shop_master_backend.service.interfaces.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +24,31 @@ import java.util.Map;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
-	private final ProductServiceImpl productService;
+
+    private final ProductServiceImpl productService;
+    private final NotificationService notificationService;
+    private final ApplicationEventPublisher eventPublisher;
+
+    @GetMapping(path = "/stream")
+    public SseEmitter streamProducts() {
+        SseEmitter emitter = notificationService.subscribe(NotificationTopics.PRODUCTS);
+
+        try {
+            List<ProductResponseDTO> products = productService.getAllProducts();
+            emitter.send(SseEmitter.event()
+                    .name(NotificationTopics.PRODUCTS)
+                    .data(products));
+        } catch (IOException e) {
+            emitter.completeWithError(e);
+        }
+
+        return emitter;
+    }
+
+    private void notifyProductUpdate() {
+        List<ProductResponseDTO> products = productService.getAllProducts();
+        eventPublisher.publishEvent(new EntityUpdateEvent<>(NotificationTopics.PRODUCTS, products));
+    }
 
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PostMapping
@@ -26,7 +56,11 @@ public class ProductController {
 			@RequestPart ProductRequestDTO productDTO,
 			@RequestPart MultipartFile image) {
 		ProductResponseDTO product = productService.addProduct(productDTO, image);
-		return ResponseEntity.ok(product);
+
+        // Notifica cualquier actualización en los productos a los clientes
+        notifyProductUpdate();
+
+        return ResponseEntity.ok(product);
 	}
 
 	@GetMapping
