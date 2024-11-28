@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/auth/**").permitAll()
                         // Permitir conexiones SSE
                         .requestMatchers("/products/stream").permitAll()
+                        .requestMatchers("/reviews/stream/**").permitAll()
                         // Cualquier otra solicitud debe estar autenticada.
                         .anyRequest().authenticated()
                 )

@@ -28,7 +28,7 @@ public class ReviewController {
 
     @GetMapping(path = "/stream/{productId}")
     public SseEmitter streamReviews(@PathVariable String productId) {
-        SseEmitter emitter = notificationService.subscribe(NotificationTopics.PRODUCTS);
+        SseEmitter emitter = notificationService.subscribe(NotificationTopics.REVIEWS);
 
         try {
             List<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(productId);
