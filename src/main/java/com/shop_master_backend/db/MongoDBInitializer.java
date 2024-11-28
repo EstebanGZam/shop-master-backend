@@ -99,6 +99,72 @@ public class MongoDBInitializer {
 					.build();
 			imageRepository.save(sweatshirtImage);
 
+			Image jacketImage4 = Image.builder()
+					.id("004")
+					.url("https://http2.mlstatic.com/D_NQ_NP_679847-CBT77497559641_072024-O.webp")
+					.build();
+			imageRepository.save(jacketImage4);
+
+			Image jeansImage2 = Image.builder()
+					.id("005")
+					.url("https://www.muskblog.com/wp-content/uploads/2019/10/PANTS-F50-Holand-Negro-Azul-Marino-Frontal.png")
+					.build();
+			imageRepository.save(jeansImage2);
+
+			Image shirtImage2 = Image.builder()
+					.id("006")
+					.url("https://arturocalle.vtexassets.com/arquivos/ids/639609-800-1067?v=638530637019900000&width=800&height=1067&aspect=true")
+					.build();
+			imageRepository.save(shirtImage2);
+
+			Image sweatshirtImage2 = Image.builder()
+					.id("007")
+					.url("https://arturocalle.vtexassets.com/arquivos/ids/541482/JOVEN-BUZO-35000668-NEGRO-090_1-1.jpg?v=638168240172930000")
+					.build();
+			imageRepository.save(sweatshirtImage2);
+
+			Image jacketImage2 = Image.builder()
+					.id("008")
+					.url("https://www.inkanta.com.co/media/catalog/product/cache/498610b488c09ccbda865aca21aa64dd/5/9/59453_1.jpg")
+					.build();
+			imageRepository.save(jacketImage2);
+
+			Image chinosImage = Image.builder()
+					.id("009")
+					.url("https://arturocalle.vtexassets.com/arquivos/ids/620414/HOMBRE-PANTALON-10103688-AZUL-780_1.jpg?v=638455929968070000")
+					.build();
+			imageRepository.save(chinosImage);
+
+			Image longSleeveShirtImage = Image.builder()
+					.id("010")
+					.url("https://ferrefarbef.com/wp-content/uploads/2023/01/camisa-oxford-500x500-agrofarbef-1.jpg")
+					.build();
+			imageRepository.save(longSleeveShirtImage);
+
+			Image sweatshirtImage3 = Image.builder()
+					.id("011")
+					.url("https://lecoqsportif.com.co/cdn/shop/files/2220603_1_c3ff76d4-04ee-4657-a5f5-24c3060ffbd2.jpg?v=1716504357")
+					.build();
+			imageRepository.save(sweatshirtImage3);
+
+			Image leatherJacketImage = Image.builder()
+					.id("012")
+					.url("https://arturocalle.vtexassets.com/arquivos/ids/614008/HOMBRE-CHAQUETA-10132401-NEGRO-090_1.jpg?v=638436172671100000")
+					.build();
+			imageRepository.save(leatherJacketImage);
+
+			Image sportsSweatshirtImage = Image.builder()
+					.id("013")
+					.url("https://http2.mlstatic.com/D_NQ_NP_894942-MCO75214001864_032024-O.webp")
+					.build();
+			imageRepository.save(sportsSweatshirtImage);
+
+			Image flannelShirtImage = Image.builder()
+					.id("014")
+					.url("https://http2.mlstatic.com/D_NQ_NP_656474-CBT51254571899_082022-O.webp")
+					.build();
+			imageRepository.save(flannelShirtImage);
+
 			// Crear productos
 			Product pantsProduct = Product.builder()
 					.id("001")
@@ -135,6 +201,139 @@ public class MongoDBInitializer {
 					.image(sweatshirtImage)
 					.build();
 			productRepository.save(sweatshirtProduct);
+
+			Product jacketProduct4 = Product.builder()
+					.id("004")
+					.name("Chaqueta ligera para el verano")
+					.description("Chaqueta ligera ideal para el clima cálido con un diseño moderno.")
+					.price(49.99)
+					.stockQuantity(25)
+					.size(sizeMedium)
+					.category(jacketCategory)
+					.image(jacketImage4)
+					.build();
+
+			productRepository.save(jacketProduct4);
+
+			Product pantsProduct2 = Product.builder()
+					.id("005")
+					.name("Pantalones deportivos")
+					.description("Pantalones cómodos para hacer ejercicio")
+					.price(39.99)
+					.stockQuantity(15)
+					.size(sizeLarge)
+					.category(pantsCategory)
+					.image(jeansImage2)
+					.build();
+			productRepository.save(pantsProduct2);
+
+			Product shirtProduct2 = Product.builder()
+					.id("006")
+					.name("Camisa casual")
+					.description("Camisa de manga corta para el verano")
+					.price(19.99)
+					.stockQuantity(60)
+					.size(sizeXLarge)
+					.category(shirtCategory)
+					.image(shirtImage2)
+					.build();
+			productRepository.save(shirtProduct2);
+
+			Product sweatshirtProduct2 = Product.builder()
+					.id("007")
+					.name("Buzo con capucha")
+					.description("Buzo con capucha para climas frescos")
+					.price(69.99)
+					.stockQuantity(20)
+					.size(sizeSmall)
+					.category(sweatshirtCategory)
+					.image(sweatshirtImage2)
+					.build();
+			productRepository.save(sweatshirtProduct2);
+
+			Product jacketProduct2 = Product.builder()
+					.id("008")
+					.name("Chaqueta impermeable")
+					.description("Chaqueta de lluvia con capucha y ajuste")
+					.price(89.99)
+					.stockQuantity(18)
+					.size(sizeMedium)
+					.category(jacketCategory)
+					.image(jacketImage2)
+					.build();
+			productRepository.save(jacketProduct2);
+
+			Product pantsProduct3 = Product.builder()
+					.id("009")
+					.name("Pantalón chino")
+					.description("Pantalón chino de corte recto y color beige")
+					.price(45.99)
+					.stockQuantity(25)
+					.size(sizeMedium)
+					.category(pantsCategory)
+					.image(chinosImage)
+					.build();
+			productRepository.save(pantsProduct3);
+
+			Product shirtProduct3 = Product.builder()
+					.id("010")
+					.name("Camiseta de manga larga")
+					.description("Camiseta de manga larga en colores neutros")
+					.price(24.99)
+					.stockQuantity(50)
+					.size(sizeLarge)
+					.category(shirtCategory)
+					.image(longSleeveShirtImage)
+					.build();
+			productRepository.save(shirtProduct3);
+
+			Product sweatshirtProduct3 = Product.builder()
+					.id("011")
+					.name("Buzo con logo")
+					.description("Buzo con el logo en el pecho, ideal para el frío")
+					.price(79.99)
+					.stockQuantity(30)
+					.size(sizeXLarge)
+					.category(sweatshirtCategory)
+					.image(sweatshirtImage3)
+					.build();
+			productRepository.save(sweatshirtProduct3);
+
+			Product jacketProduct3 = Product.builder()
+					.id("012")
+					.name("Chaqueta de cuero")
+					.description("Chaqueta de cuero sintético, elegante y cómoda")
+					.price(120.00)
+					.stockQuantity(10)
+					.size(sizeLarge)
+					.category(jacketCategory)
+					.image(leatherJacketImage)
+					.build();
+			productRepository.save(jacketProduct3);
+
+			Product sweatshirtProduct4 = Product.builder()
+					.id("013")
+					.name("Buzo de deporte")
+					.description("Buzo de deporte con cierre frontal y capucha")
+					.price(65.99)
+					.stockQuantity(40)
+					.size(sizeMedium)
+					.category(sweatshirtCategory)
+					.image(sportsSweatshirtImage)
+					.build();
+			productRepository.save(sweatshirtProduct4);
+
+			Product shirtProduct4 = Product.builder()
+					.id("014")
+					.name("Camisa de manga larga de franela")
+					.description("Camisa de franela de manga larga, perfecta para el invierno")
+					.price(49.99)
+					.stockQuantity(35)
+					.size(sizeMedium)
+					.category(shirtCategory)
+					.image(flannelShirtImage)
+					.build();
+			productRepository.save(shirtProduct4);
 
 			// Crear reseñas
 			Review pantsReview = Review.builder()
