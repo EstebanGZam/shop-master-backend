@@ -33,14 +33,19 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<ReviewResponseDTO> getReviewsByRatingRange(Double minRating, Double maxRating) {
-		// Validar que los valores de rango sean correctos
+	public List<ReviewResponseDTO> getReviewsByRatingRangeAndProduct(Double minRating, Double maxRating, String productId) {
+		// Validar los valores de rango y el ID del producto
 		if (minRating < 0.0 || maxRating > 5.0 || minRating > maxRating) {
 			throw new IllegalArgumentException("Invalid rating range. Ensure 0.0 <= minRating <= maxRating <= 5.0");
 		}
-		List<Review> reviews = reviewRepository.findByRatingBetween(minRating, maxRating);
-		// Consultar reseñas en el rango especificado
+		if (productId == null || productId.isEmpty()) {
+			throw new IllegalArgumentException("Product ID cannot be null or empty.");
+		}
+
+		// Consultar reseñas filtradas por rango y producto
+		List<Review> reviews = reviewRepository.findByRatingBetweenAndProductId(minRating, maxRating, productId);
 		return reviews.stream().map(reviewMapper::toReviewResponseDTO).toList();
 	}
+
 
 }

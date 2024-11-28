@@ -30,18 +30,11 @@ public class ReviewController {
 	@GetMapping("/filter-by-rating")
 	public ResponseEntity<?> filterReviewsByRating(
 			@RequestParam(defaultValue = "0.0") Double minRating,
-			@RequestParam(defaultValue = "5.0") Double maxRating) {
-		try {
-			// Obtener reseñas filtradas
-			List<ReviewResponseDTO> reviews = reviewService.getReviewsByRatingRange(minRating, maxRating);
-			return ResponseEntity.ok(reviews);
-		} catch (IllegalArgumentException ex) {
-			// Manejar rango inválido
-			return ResponseEntity.badRequest().body(ex.getMessage());
-		} catch (Exception ex) {
-			// Manejar errores inesperados
-			return ResponseEntity.internalServerError()
-					.body("An unexpected error occurred");
-		}
+			@RequestParam(defaultValue = "5.0") Double maxRating,
+			@RequestParam String productId) {
+		// Obtener reseñas filtradas por rango y producto
+		List<ReviewResponseDTO> reviews = reviewService.getReviewsByRatingRangeAndProduct(minRating, maxRating, productId);
+		return ResponseEntity.ok(reviews);
 	}
+
 }

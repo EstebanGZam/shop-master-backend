@@ -9,6 +9,7 @@ import java.util.List;
 public interface ReviewRepository extends MongoRepository<Review, String> {
 	List<Review> findByProductId(String productId);
 
-	@Query("{'rating': { $gte: ?0, $lte: ?1 }}")
-	List<Review> findByRatingBetween(Double minRating, Double maxRating);
+	@Query("{ 'rating': { $gte: ?0, $lte: ?1 }, 'productId': ?2 }")
+	List<Review> findByRatingBetweenAndProductId(Double minRating, Double maxRating, String productId);
+
 }

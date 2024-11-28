@@ -10,5 +10,5 @@ public interface ReviewService {
 
 	List<ReviewResponseDTO> getReviewsByProductId(String productId);
 
-	List<ReviewResponseDTO> getReviewsByRatingRange(Double minRating, Double maxRating);
+	List<ReviewResponseDTO> getReviewsByRatingRangeAndProduct(Double minRating, Double maxRating, String productId);
 }
