@@ -336,32 +336,104 @@ public class MongoDBInitializer {
 			productRepository.save(shirtProduct4);
 
 			// Crear reseñas
-			Review pantsReview = Review.builder()
+			Review review1 = Review.builder()
 					.id("001")
-					.productId(pantsProduct.getId())
+					.productId("005") // Producto relacionado con la primera orden
 					.userId(1)
-					.rating(5.0)
-					.comment("Excelente ajuste y material resistente.")
+					.rating(4.5)
+					.comment("Buena calidad y precio justo.")
 					.build();
-			reviewRepository.save(pantsReview);
+			reviewRepository.save(review1);
 
-			Review shirtReview = Review.builder()
+			Review review2 = Review.builder()
 					.id("002")
-					.productId(shirtProduct.getId())
+					.productId("002") // Producto relacionado con la segunda orden
 					.userId(2)
-					.rating(4.0)
-					.comment("Muy cómoda y de buena calidad.")
+					.rating(5.0)
+					.comment("Excelente diseño y ajuste.")
 					.build();
-			reviewRepository.save(shirtReview);
+			reviewRepository.save(review2);
 
-			Review sweatshirtReview = Review.builder()
+			Review review3 = Review.builder()
 					.id("003")
-					.productId(sweatshirtProduct.getId())
+					.productId("007") // Producto relacionado con la tercera orden
 					.userId(3)
 					.rating(4.0)
-					.comment("Perfecto para el invierno, muy abrigado.")
+					.comment("Cumple con las expectativas, aunque algo caro.")
 					.build();
-			reviewRepository.save(sweatshirtReview);
+			reviewRepository.save(review3);
+
+			Review review4 = Review.builder()
+					.id("004")
+					.productId("004") // Producto relacionado con la cuarta orden
+					.userId(4)
+					.rating(3.5)
+					.comment("Buen producto, pero podría ser más duradero.")
+					.build();
+			reviewRepository.save(review4);
+
+			Review review5 = Review.builder()
+					.id("005")
+					.productId("003") // Producto relacionado con la quinta orden
+					.userId(5)
+					.rating(5.0)
+					.comment("Muy cómodo y abrigado.")
+					.build();
+			reviewRepository.save(review5);
+
+			Review review6 = Review.builder()
+					.id("006")
+					.productId("006") // Producto relacionado con la sexta orden
+					.userId(2)
+					.rating(4.5)
+					.comment("Estilo moderno y buen material.")
+					.build();
+			reviewRepository.save(review6);
+
+			Review review7 = Review.builder()
+					.id("007")
+					.productId("008") // Producto relacionado con la séptima orden
+					.userId(3)
+					.rating(4.0)
+					.comment("Perfecto para días de lluvia.")
+					.build();
+			reviewRepository.save(review7);
+
+			Review review8 = Review.builder()
+					.id("008")
+					.productId("009") // Producto relacionado con la octava orden
+					.userId(2)
+					.rating(5.0)
+					.comment("Muy cómodo para uso diario.")
+					.build();
+			reviewRepository.save(review8);
+
+			Review review9 = Review.builder()
+					.id("009")
+					.productId("010") // Producto relacionado con la novena orden
+					.userId(4)
+					.rating(4.0)
+					.comment("Buena calidad y diseño clásico.")
+					.build();
+			reviewRepository.save(review9);
+
+			Review review10 = Review.builder()
+					.id("010")
+					.productId("011") // Producto relacionado con la décima orden
+					.userId(5)
+					.rating(5.0)
+					.comment("Material de excelente calidad.")
+					.build();
+			reviewRepository.save(review10);
+
+			Review review11 = Review.builder()
+					.id("011")
+					.productId("012") // Producto relacionado con la undécima orden
+					.userId(6)
+					.rating(4.5)
+					.comment("Muy elegante, perfecto para ocasiones especiales.")
+					.build();
+			reviewRepository.save(review11);
 		};
 	}
 
